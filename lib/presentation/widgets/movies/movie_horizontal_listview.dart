@@ -2,6 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:cinemapedia/config/helpers/human_formats.dart';
 import 'package:cinemapedia/domain/entities/movie.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class MovieHorizontalListview extends StatefulWidget {
   final List<Movie> movies;
@@ -85,7 +86,6 @@ class _Slide extends StatelessWidget {
         children: [
           SizedBox(
             width: 150,
-            height: 200,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: Image.network(
@@ -103,7 +103,10 @@ class _Slide extends StatelessWidget {
                       ),
                     );
                   }
-                  return FadeIn(child: child);
+                  return GestureDetector(
+                    onTap: () => context.push('/movie/${movie.id}'),
+                    child: FadeIn(child: child),
+                  );
                 },
               ),
             ),
@@ -122,7 +125,7 @@ class _Slide extends StatelessWidget {
               Icon(Icons.star_half_outlined, color: Colors.yellow.shade800),
               const SizedBox(width: 3),
               Text(
-                movie.voteAverage.toStringAsFixed(1),
+                HumanFormats.number(movie.voteAverage, 1),
                 style: textStyle.bodyMedium?.copyWith(
                   color: Colors.yellow.shade800,
                 ),
